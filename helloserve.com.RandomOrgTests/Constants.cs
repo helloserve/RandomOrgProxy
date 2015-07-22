@@ -8,6 +8,6 @@ namespace helloserve.com.RandomOrgTests
 {
     public static class Constants
     {
-        public static string ApiKey = "8a2a3900-6db5-4117-8806-eb346ae94ead";
+        public static string ApiKey = "de5ca7f9-0e7a-4759-b465-bdeb5bd13aea";
     }
 }
