@@ -14,7 +14,7 @@ namespace helloserve.com.RandomOrgTests
         [TestMethod]
         public void RandomOrg_Usage()
         {
-            RandomOrgProxy proxy = new RandomOrgProxy("your key here");
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
             int remaining = proxy.GetUsageLeft();
 
             Assert.IsTrue(remaining > 0);

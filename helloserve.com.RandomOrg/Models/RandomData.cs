@@ -8,7 +8,7 @@ namespace helloserve.com.RandomOrg.Models
 {
     internal class RandomData
     {
-        public decimal[] data { get; set; }
+        public double[] data { get; set; }
         public string completionTime { get; set; }
     }
 }

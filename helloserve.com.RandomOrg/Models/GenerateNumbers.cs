@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace helloserve.com.RandomOrg.Models
 {
-    internal class GenerateIntegers
+    internal class GenerateNumbers
     {
         public RandomData random { get; set; }
         public int bitsUsed { get; set; }

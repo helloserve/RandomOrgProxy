@@ -10,6 +10,6 @@ namespace helloserve.com.RandomOrg.Models
     {
         public int code { get; set; }
         public string message { get; set; }
-        public string data { get; set; }
+        public string[] data { get; set; }
     }
 }

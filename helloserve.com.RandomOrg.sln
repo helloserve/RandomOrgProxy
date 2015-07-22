@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloserve.com.RandomOrg", "helloserve.com.RandomOrg.csproj", "{98149C0D-A44E-42DD-9063-05285E1CD1A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloserve.com.RandomOrg", "helloserve.com.RandomOrg\helloserve.com.RandomOrg.csproj", "{98149C0D-A44E-42DD-9063-05285E1CD1A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloserve.com.RandomOrgTests", "..\helloserve.com.RandomOrgTests\helloserve.com.RandomOrgTests.csproj", "{C4212900-3400-4ADD-9D44-ED046B5568EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloserve.com.RandomOrgTests", "helloserve.com.RandomOrgTests\helloserve.com.RandomOrgTests.csproj", "{C4212900-3400-4ADD-9D44-ED046B5568EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace helloseve.com.RandomOrg
 {
-    public class RandomOrgProxy
+    public class RandomOrgClient
     {
         private string _uri = "https://api.random.org/json-rpc/1/invoke";
         private string _apiKey;
@@ -23,7 +23,7 @@ namespace helloseve.com.RandomOrg
 
         private object _requestLock = new object();
 
-        public RandomOrgProxy(string apiKey)
+        public RandomOrgClient(string apiKey)
         {
             _apiKey = apiKey;
         }
@@ -100,7 +100,7 @@ namespace helloseve.com.RandomOrg
                 {
                     try
                     {
-                        GenerateIntegers result = MakePOST<GenerateIntegersParams, GenerateIntegers>(new BaseRequestRpc<GenerateIntegersParams>("generateIntegers", new GenerateIntegersParams(1, min, max, _apiKey)));
+                        GenerateNumbers result = MakePOST<GenerateIntegersParams, GenerateNumbers>(new BaseRequestRpc<GenerateIntegersParams>("generateIntegers", new GenerateIntegersParams(1, min, max, _apiKey)));
                         _requestsLeft = result.requestsLeft;
                         _requestTime = DateTime.UtcNow.AddMilliseconds(result.advisoryDelay);
                         return (int)Math.Round(result.random.data[0]);
@@ -126,7 +126,7 @@ namespace helloseve.com.RandomOrg
                 {
                     try
                     {
-                        GenerateIntegers result = MakePOST<GenerateIntegersParams, GenerateIntegers>(new BaseRequestRpc<GenerateIntegersParams>("generateIntegers", new GenerateIntegersParams(1, min, max, _apiKey)));
+                        GenerateNumbers result = MakePOST<GenerateIntegersParams, GenerateNumbers>(new BaseRequestRpc<GenerateIntegersParams>("generateIntegers", new GenerateIntegersParams(count, min, max, _apiKey)));
                         _requestsLeft = result.requestsLeft;
                         _requestTime = DateTime.UtcNow.AddMilliseconds(result.advisoryDelay);
                         for (int i = 0; i < result.random.data.Length; i++)
@@ -142,6 +142,59 @@ namespace helloseve.com.RandomOrg
                 for (int i = 0; i < randomResult.Length; i++)
                 {
                     randomResult[i] = random.Next(min, max);
+                }
+                return randomResult;
+            }
+        }
+
+        public double GetDouble(int decimalPlaces)
+        {
+            lock (_requestLock)
+            {
+                if (DateTime.UtcNow > NextRequestTime && CanMakeRequest)
+                {
+                    try
+                    {
+                        GenerateNumbers result = MakePOST<GenerateDecimalFractionsParams, GenerateNumbers>(new BaseRequestRpc<GenerateDecimalFractionsParams>("generateDecimalFractions", new GenerateDecimalFractionsParams(1, decimalPlaces, _apiKey)));
+                        _requestsLeft = result.requestsLeft;
+                        _requestTime = DateTime.UtcNow.AddMilliseconds(result.advisoryDelay);
+                        return result.random.data[0];
+                    }
+                    catch { }
+                }
+
+                Random random = new Random((int)DateTime.Now.Ticks);
+                return Math.Round(random.NextDouble(), decimalPlaces);
+                
+            }
+        }
+
+        public double[] GetDoubles(int count, int decimalPlaces)
+        {
+            lock (_requestLock)
+            {
+                double[] randomResult = new double[count];
+
+                if (DateTime.UtcNow > NextRequestTime && CanMakeRequest)
+                {
+                    try
+                    {
+                        GenerateNumbers result = MakePOST<GenerateDecimalFractionsParams, GenerateNumbers>(new BaseRequestRpc<GenerateDecimalFractionsParams>("generateDecimalFractions", new GenerateDecimalFractionsParams(count, decimalPlaces, _apiKey)));
+                        _requestsLeft = result.requestsLeft;
+                        _requestTime = DateTime.UtcNow.AddMilliseconds(result.advisoryDelay);
+                        for (int i = 0; i < result.random.data.Length; i++)
+                        {
+                            randomResult[i] = result.random.data[i];
+                        }
+                        return randomResult;
+                    }
+                    catch { }
+                }
+
+                Random random = new Random((int)DateTime.Now.Ticks);
+                for (int i = 0; i < randomResult.Length; i++)
+                {
+                    randomResult[i] = Math.Round(random.NextDouble(), decimalPlaces);
                 }
                 return randomResult;
             }
