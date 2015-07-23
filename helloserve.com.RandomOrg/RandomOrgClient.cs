@@ -206,8 +206,14 @@ namespace helloserve.com.RandomOrg
         /// <returns>A integer array of random numbers.</returns>
         public int[] GetIntegers(int count, int min, int max)
         {
-            if (min < -1000000000 || max > 1000000000)
-                throw new ArgumentException("Requested range is not supported. Must be between -1000000000 and +1000000000.");
+            if (min < -1000000000 || min > 1000000000)
+                throw new ArgumentOutOfRangeException("min must range from -1e9 to 1e9");
+
+            if (max < -1000000000 || max > 1000000000)
+                throw new ArgumentOutOfRangeException("max must range from -1e9 to 1e9");
+
+            if (max < min)
+                throw new ArgumentException("max cannot be less than min");
 
             return Generate<int, GenerateIntegersParams>(count, "generateIntegers", new GenerateIntegersParams(count, min, max, _replacement, _apiKey),
                 () =>
@@ -220,7 +226,7 @@ namespace helloserve.com.RandomOrg
                     }
                     return randomResult;
                 },
-                processor: (v) => (int)Math.Round((double)v));
+                processor: (v) => (int)Math.Truncate((double)v));
         }
 
         /// <summary>
@@ -242,7 +248,7 @@ namespace helloserve.com.RandomOrg
         public double[] GetDoubles(int count, int decimalPlaces)
         {
             if (decimalPlaces < 1 || decimalPlaces > 20)
-                throw new ArgumentOutOfRangeException("decimalPlaces must be between 2 and 20");
+                throw new ArgumentOutOfRangeException("decimalPlaces must range from 2 to 20");
 
             return Generate<double, GenerateDecimalFractionsParams>(count, "generateDecimalFractions", new GenerateDecimalFractionsParams(count, decimalPlaces, _replacement, _apiKey),
                 () =>
@@ -299,13 +305,13 @@ namespace helloserve.com.RandomOrg
         public double[] GetGaussians(int count, double mean, double standardDeviation, int significantDigits)
         {
             if (mean < -1000000.0 || mean > 1000000.0)
-                throw new ArgumentOutOfRangeException("mean must be between -1e6 and +1e6");
+                throw new ArgumentOutOfRangeException("mean must range from -1e6 to 1e6");
 
             if (standardDeviation < -1000000.0 || standardDeviation > 1000000.0)
-                throw new ArgumentOutOfRangeException("standardDeviation must be between -1e6 and +1e6");
+                throw new ArgumentOutOfRangeException("standardDeviation must range from -1e6 to +1e6");
 
             if (significantDigits < 2 || significantDigits > 20)
-                throw new ArgumentOutOfRangeException("significantDigits must be between 2 and 20");
+                throw new ArgumentOutOfRangeException("significantDigits must range from 2 to 20");
 
             return Generate<double, GenerateGaussiansParams>(count, "generateGaussians", new GenerateGaussiansParams(count, mean, standardDeviation, significantDigits, _apiKey),
                 () =>

@@ -3,11 +3,11 @@ A simple C# client for interfacing with the Random.org API
 
 # Why this client?
 
-It is a very user-friendly design, that is to say it's not a verbatim implementation of the Random.Org API, but instead a configurable and simple-use-first implementation that wraps the API.
+It is a very user-friendly design, that is to say it's not a verbatim implementation of the Random.org API, but instead a configurable and simple-use-first implementation that wraps the API.
 
 If you are not concerned about denied requests, don't want to deal with HTTP errors or time-limited throttling, this library has the option to fall back to local ```Random``` class implementations.
 
-Basically, it's Random.Org the easy way, but also supports the hard way through some configuration changes.
+Basically it's Random.org the easy way, but also supports the hard way through some configuration changes.
 
 # Configuration
 

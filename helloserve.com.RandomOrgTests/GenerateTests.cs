@@ -19,6 +19,51 @@ namespace helloserve.com.RandomOrgTests
         }
 
         [TestMethod]
+        public void RandomOrg_GenerateInteger_MinOutOfRange()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+
+            try
+            {
+                int result = proxy.GetInteger(int.MinValue, 50);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex is ArgumentOutOfRangeException);
+            }
+        }
+
+        [TestMethod]
+        public void RandomOrg_GenerateInteger_MaxOutOfRange()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+
+            try
+            {
+                int result = proxy.GetInteger(10, int.MaxValue);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex is ArgumentOutOfRangeException);
+            }
+        }
+
+        [TestMethod]
+        public void RandomOrg_GenerateInteger_MinMaxSwop()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+
+            try
+            {
+                int result = proxy.GetInteger(50, 10);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex is ArgumentException);
+            }
+        }
+
+        [TestMethod]
         public void RandomOrg_GenerateIntegers()
         {
             RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
