@@ -14,7 +14,7 @@ Basically, it's Random.Org the easy way, but also supports the hard way through 
 So what is configurable?
 
 - You can set to not use the fallback mode in cases where: no requests are left for your API key, time-limited throttling is done by Random.Org or HTTP errors occur. If you do, you will get exceptions in those cases.
-- You can set wether values should generate with or without replacement.
+- You can set whether values should generate with or without replacement.
 - You can set a standard set of characters for random strings, or specify it per call.
 
 # Usage
