@@ -1,4 +1,4 @@
-﻿using helloseve.com.RandomOrg;
+﻿using helloserve.com.RandomOrg;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

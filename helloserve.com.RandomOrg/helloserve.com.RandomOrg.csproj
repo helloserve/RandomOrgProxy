@@ -43,18 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoxMuller.cs" />
+    <Compile Include="Models\Base\GenerateBase.cs" />
+    <Compile Include="Parameters\Base\BaseGenerateParams.cs" />
     <Compile Include="Parameters\Base\BaseRequestRpc.cs" />
     <Compile Include="Models\Base\BaseResponseRpc.cs" />
     <Compile Include="Models\ErrorResponse.cs" />
-    <Compile Include="Models\GenerateNumbers.cs" />
     <Compile Include="Models\RandomData.cs" />
     <Compile Include="Models\Usage.cs" />
-    <Compile Include="Parameters\BaseParams.cs" />
+    <Compile Include="Parameters\Base\BaseParams.cs" />
     <Compile Include="Parameters\GenerateDecimalFractionsParams.cs" />
     <Compile Include="Parameters\GenerateGaussiansParams.cs" />
     <Compile Include="Parameters\GenerateIntegersParams.cs" />
+    <Compile Include="Parameters\GenerateStringsParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomOrgClient.cs" />
+    <Compile Include="RandomOrgRequestException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

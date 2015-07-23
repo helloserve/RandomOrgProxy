@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace helloserve.com.RandomOrg.Parameters
 {
-    internal class GenerateDecimalFractionsParams : BaseGenerateParams
+    internal class GenerateStringsParams : BaseGenerateParams
     {
         public int n { get; set; }
-        public int decimalPlaces { get; set; }
+        public int length { get; set; }
+        public string characters { get; set; }
 
-        public GenerateDecimalFractionsParams(int n, int decimalPlaces, bool replacement, string apiKey)
+        public GenerateStringsParams(int n, int length, string characters, bool replacement, string apiKey)
             : base(replacement, apiKey)
         {
             this.n = n;
-            this.decimalPlaces = decimalPlaces;
+            this.length = length;
+            this.characters = characters;
         }
     }
 }

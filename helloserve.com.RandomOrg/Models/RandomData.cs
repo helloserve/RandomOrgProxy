@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace helloserve.com.RandomOrg.Models
 {
-    internal class RandomData
+    internal class RandomData<T>
     {
-        public double[] data { get; set; }
+        public T[] data { get; set; }
         public string completionTime { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using helloseve.com.RandomOrg;
+using helloserve.com.RandomOrg;
 
 namespace helloserve.com.RandomOrgTests
 {
@@ -43,7 +44,7 @@ namespace helloserve.com.RandomOrgTests
             Assert.IsTrue(result >= 0);
             Assert.IsTrue(result <= 1);
 
-            Assert.IsTrue(result.ToString().Length == 8);
+            Assert.IsTrue(result.ToString().Length <= 8);
         }
 
         [TestMethod]
@@ -60,6 +61,99 @@ namespace helloserve.com.RandomOrgTests
                 lengthCorrect &= result[i].ToString().Length <= 8;
             }
             Assert.IsTrue(lengthCorrect);
+        }
+
+        [TestMethod]
+        public void RandomOrg_GenerateGaussian_Standard()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            double result = proxy.GetGaussian();
+
+            Assert.IsTrue(result.ToString().Length <= 22);
+        }
+
+        [TestMethod]
+        public void RandomOrg_GenerateGaussian_Specific()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            double result = proxy.GetGaussian(50.0D, 0.5D, 5);
+
+            Assert.IsTrue(result.ToString().Length <= 7);
+        }
+
+        [TestMethod]
+        public void RandomOrg_GenerateGaussians_Standard()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            double[] result = proxy.GetGaussians(100);
+
+            Assert.IsTrue(result.Length == 100);
+        }
+
+        [TestMethod]
+        public void RandomOrg_GenerateGaussians_Specific()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            double[] result = proxy.GetGaussians(100, 20, 100, 6);
+
+            Assert.IsTrue(result.Length == 100);
+
+            bool lengthCorrect = true;
+            for (int i = 0; i < result.Length; i++)
+            {
+                lengthCorrect &= (result[i] > 0 && result[i].ToString().Length <= 8) || (result[i] < 0 && result[i].ToString().Length <= 9);
+            }
+            Assert.IsTrue(lengthCorrect);
+        }
+
+        [TestMethod]
+        public void Random_GenerateString_Standard()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            string result = proxy.GetString(10);
+
+            Assert.IsTrue(result.ToCharArray().Except(proxy.AllowedStringCharacters).Count() == 0);
+        }
+
+        [TestMethod]
+        public void Random_GenerateString_Specific()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            char[] allowed = new char[] { '1', '2', '3' };
+            string result = proxy.GetString(10, allowed);
+
+            Assert.IsTrue(result.ToCharArray().Except(allowed).Count() == 0);
+        }
+        
+        [TestMethod]
+        public void Random_GenerateStrings_Standard()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            string[] result = proxy.GetStrings(100, 10);
+
+            bool allowedCharacters = true;
+            for (int i = 0; i < result.Length; i++)
+            {
+                allowedCharacters &= result[i].ToCharArray().Except(proxy.AllowedStringCharacters).Count() == 0;
+            }            
+
+            Assert.IsTrue(allowedCharacters);
+        }
+
+        [TestMethod]
+        public void Random_GenerateStrings_Specific()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            char[] allowed = new char[] { '1', '2', '3' };
+            string[] result = proxy.GetStrings(100, 10, allowed);
+
+            bool allowedCharacters = true;
+            for (int i = 0; i < result.Length; i++)
+            {
+                allowedCharacters &= result[i].ToCharArray().Except(proxy.AllowedStringCharacters).Count() == 0;
+            }
+
+            Assert.IsTrue(allowedCharacters);
         }
     }
 }
