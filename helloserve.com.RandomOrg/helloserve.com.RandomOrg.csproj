@@ -51,6 +51,7 @@
     <Compile Include="Models\Usage.cs" />
     <Compile Include="Parameters\BaseParams.cs" />
     <Compile Include="Parameters\GenerateDecimalFractionsParams.cs" />
+    <Compile Include="Parameters\GenerateGaussiansParams.cs" />
     <Compile Include="Parameters\GenerateIntegersParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomOrgClient.cs" />

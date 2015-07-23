@@ -91,26 +91,7 @@ namespace helloseve.com.RandomOrg
 
         public int GetInteger(int min, int max)
         {
-            if (min < -1000000000 || max > 1000000000)
-                throw new ArgumentException("Requested range is not supported. Must be between -1000000000 and +1000000000.");
-
-            lock (_requestLock)
-            {
-                if (DateTime.UtcNow > NextRequestTime && CanMakeRequest)
-                {
-                    try
-                    {
-                        GenerateNumbers result = MakePOST<GenerateIntegersParams, GenerateNumbers>(new BaseRequestRpc<GenerateIntegersParams>("generateIntegers", new GenerateIntegersParams(1, min, max, _apiKey)));
-                        _requestsLeft = result.requestsLeft;
-                        _requestTime = DateTime.UtcNow.AddMilliseconds(result.advisoryDelay);
-                        return (int)Math.Round(result.random.data[0]);
-                    }
-                    catch { }
-                }
-
-                Random random = new Random((int)DateTime.Now.Ticks);
-                return random.Next(min, max);
-            }
+            return GetIntegers(1, min, max)[0];
         }
 
         public int[] GetIntegers(int count, int min, int max)
@@ -149,28 +130,14 @@ namespace helloseve.com.RandomOrg
 
         public double GetDouble(int decimalPlaces)
         {
-            lock (_requestLock)
-            {
-                if (DateTime.UtcNow > NextRequestTime && CanMakeRequest)
-                {
-                    try
-                    {
-                        GenerateNumbers result = MakePOST<GenerateDecimalFractionsParams, GenerateNumbers>(new BaseRequestRpc<GenerateDecimalFractionsParams>("generateDecimalFractions", new GenerateDecimalFractionsParams(1, decimalPlaces, _apiKey)));
-                        _requestsLeft = result.requestsLeft;
-                        _requestTime = DateTime.UtcNow.AddMilliseconds(result.advisoryDelay);
-                        return result.random.data[0];
-                    }
-                    catch { }
-                }
-
-                Random random = new Random((int)DateTime.Now.Ticks);
-                return Math.Round(random.NextDouble(), decimalPlaces);
-                
-            }
+            return GetDoubles(1, decimalPlaces)[0];
         }
 
         public double[] GetDoubles(int count, int decimalPlaces)
         {
+            if (decimalPlaces < 1 || decimalPlaces > 20)
+                throw new ArgumentOutOfRangeException("decimalPlaces must be between 2 and 20");
+
             lock (_requestLock)
             {
                 double[] randomResult = new double[count];
@@ -198,6 +165,50 @@ namespace helloseve.com.RandomOrg
                 }
                 return randomResult;
             }
+        }
+
+        public double GetGaussian(int mean, int standardDeviation, int significantDigits)
+        {
+            return GetGaussians(1, mean, standardDeviation, significantDigits)[0];
+        }
+
+        public double GetGaussian()
+        {
+            return GetGaussian(0, 0, 20);
+        }
+
+        public double[] GetGaussians(int count, int mean, int standardDeviation, int significantDigits)
+        {
+            if (mean < -1000000 || mean > 1000000)
+                throw new ArgumentOutOfRangeException("mean must be between -1e6 and +1e6");
+
+            if (standardDeviation < -1000000 || standardDeviation > 1000000)
+                throw new ArgumentOutOfRangeException("standardDeviation must be between -1e6 and +1e6");
+
+            if (significantDigits < 2 || significantDigits > 20)
+                throw new ArgumentOutOfRangeException("significantDigits must be between 2 and 20");
+
+            if (DateTime.UtcNow < NextRequestTime || !CanMakeRequest)
+                throw new InvalidOperationException("Cannot make request at this time.");
+
+            lock (_requestLock)
+            {
+                double[] randomResult = new double[count];
+
+                GenerateNumbers result = MakePOST<GenerateGaussiansParams, GenerateNumbers>(new BaseRequestRpc<GenerateGaussiansParams>("generateGaussians", new GenerateGaussiansParams(count, mean, standardDeviation, significantDigits, _apiKey)));
+                _requestsLeft = result.requestsLeft;
+                _requestTime = DateTime.UtcNow.AddMilliseconds(result.advisoryDelay);
+                for (int i = 0; i < result.random.data.Length; i++)
+                {
+                    randomResult[i] = result.random.data[i];
+                }
+                return randomResult;
+            }
+        }
+
+        public double[] GetGaussians(int count)
+        {
+            return GetGaussians(count, 0, 0, 20);
         }
     }
 }
