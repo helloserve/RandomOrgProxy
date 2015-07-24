@@ -322,7 +322,7 @@ namespace helloserve.com.RandomOrg
                         double val = _boxMuller.GenerateGaussian(mean, standardDeviation);
                         double truncVal = Math.Truncate(val);
                         int remainingDigits = significantDigits - truncVal.ToString().Length;
-                        randomResult[i] = Math.Round(val, Math.Min(remainingDigits, 15));
+                        randomResult[i] = Math.Round(val, Math.Max(Math.Min(remainingDigits, 15), 0));
                     }
 
                     return randomResult;
