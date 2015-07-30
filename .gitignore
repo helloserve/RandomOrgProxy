@@ -15,3 +15,4 @@ obj*
 #Solution and other
 *.suo
 *.user
+packages

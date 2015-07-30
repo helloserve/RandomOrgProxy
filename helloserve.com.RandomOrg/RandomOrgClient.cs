@@ -215,7 +215,7 @@ namespace helloserve.com.RandomOrg
             if (max < min)
                 throw new ArgumentException("max cannot be less than min");
 
-            return Generate<int, GenerateIntegersParams>(count, "generateIntegers", new GenerateIntegersParams(count, min, max, _replacement, _apiKey),
+            return Generate<int, GenerateIntegersParams>(count, "generateIntegers", new GenerateIntegersParams(min, max, _replacement, count, _apiKey),
                 () =>
                 {
                     int[] randomResult = new int[count];
@@ -250,7 +250,7 @@ namespace helloserve.com.RandomOrg
             if (decimalPlaces < 1 || decimalPlaces > 20)
                 throw new ArgumentOutOfRangeException("decimalPlaces must range from 2 to 20");
 
-            return Generate<double, GenerateDecimalFractionsParams>(count, "generateDecimalFractions", new GenerateDecimalFractionsParams(count, decimalPlaces, _replacement, _apiKey),
+            return Generate<double, GenerateDecimalFractionsParams>(count, "generateDecimalFractions", new GenerateDecimalFractionsParams(decimalPlaces, _replacement, count, _apiKey),
                 () =>
                 {
                     double[] randomResult = new double[count];
@@ -313,7 +313,7 @@ namespace helloserve.com.RandomOrg
             if (significantDigits < 2 || significantDigits > 20)
                 throw new ArgumentOutOfRangeException("significantDigits must range from 2 to 20");
 
-            return Generate<double, GenerateGaussiansParams>(count, "generateGaussians", new GenerateGaussiansParams(count, mean, standardDeviation, significantDigits, _apiKey),
+            return Generate<double, GenerateGaussiansParams>(count, "generateGaussians", new GenerateGaussiansParams(mean, standardDeviation, significantDigits, count, _apiKey),
                 () =>
                 {
                     double[] randomResult = new double[count];
@@ -399,7 +399,7 @@ namespace helloserve.com.RandomOrg
             if (characters.Length > 80)
                 throw new ArgumentOutOfRangeException("characters cannot be more than 80");
 
-            return Generate<string, GenerateStringsParams>(count, "generateStrings", new GenerateStringsParams(count, length, characters, _replacement, _apiKey),
+            return Generate<string, GenerateStringsParams>(count, "generateStrings", new GenerateStringsParams(length, characters, _replacement, count, _apiKey),
                 () =>
                 {
                     string[] randomResult = new string[count];
@@ -411,6 +411,36 @@ namespace helloserve.com.RandomOrg
                         for (int j = 0; j < length; j++)
                             randomBuilder.Append(characters[random.Next(characters.Length)]);
                         randomResult[i] = randomBuilder.ToString();
+                    }
+
+                    return randomResult;
+                });
+        }
+
+        /// <summary>
+        /// Get a random Guid.
+        /// </summary>
+        /// <returns>A random Guid value.</returns>
+        public Guid GetGuid()
+        {
+            return GetGuids(1)[0];
+        }
+
+        /// <summary>
+        /// Get a Guid array.
+        /// </summary>
+        /// <param name="count">The length of the array to return.</param>
+        /// <returns>A Guid array of random values.</returns>
+        public Guid[] GetGuids(int count)
+        {
+            return Generate<Guid, BaseNParams>(count, "generateUUIDs", new BaseNParams(count, _apiKey),
+                () =>
+                {
+                    Guid[] randomResult = new Guid[count];
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        randomResult[i] = Guid.NewGuid();
                     }
 
                     return randomResult;

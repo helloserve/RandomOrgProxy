@@ -46,6 +46,7 @@
     <Compile Include="BoxMuller.cs" />
     <Compile Include="Models\Base\GenerateBase.cs" />
     <Compile Include="Parameters\Base\BaseGenerateParams.cs" />
+    <Compile Include="Parameters\Base\BaseNParams.cs" />
     <Compile Include="Parameters\Base\BaseRequestRpc.cs" />
     <Compile Include="Models\Base\BaseResponseRpc.cs" />
     <Compile Include="Models\ErrorResponse.cs" />

@@ -9,13 +9,11 @@ namespace helloserve.com.RandomOrg.Parameters
 {
     internal class GenerateDecimalFractionsParams : BaseGenerateParams
     {
-        public int n { get; set; }
         public int decimalPlaces { get; set; }
 
-        public GenerateDecimalFractionsParams(int n, int decimalPlaces, bool replacement, string apiKey)
-            : base(replacement, apiKey)
+        public GenerateDecimalFractionsParams(int decimalPlaces, bool replacement, int n, string apiKey)
+            : base(replacement, n, apiKey)
         {
-            this.n = n;
             this.decimalPlaces = decimalPlaces;
         }
     }

@@ -7,17 +7,15 @@ using System.Threading.Tasks;
 
 namespace helloserve.com.RandomOrg.Parameters
 {
-    internal class GenerateGaussiansParams : BaseParams
+    internal class GenerateGaussiansParams : BaseNParams
     {
-        public int n { get; set; }
         public double mean { get; set; }
         public double standardDeviation { get; set; }
         public int significantDigits { get; set; }
 
-        public GenerateGaussiansParams(int n, double mean, double standardDeviation, int significantDigits, string apiKey)
-            : base(apiKey)
+        public GenerateGaussiansParams(double mean, double standardDeviation, int significantDigits, int n, string apiKey)
+            : base(n, apiKey)
         {
-            this.n = n;
             this.mean = mean;
             this.standardDeviation = standardDeviation;
             this.significantDigits = significantDigits;

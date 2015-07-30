@@ -200,5 +200,26 @@ namespace helloserve.com.RandomOrgTests
 
             Assert.IsTrue(allowedCharacters);
         }
+
+        [TestMethod]
+        public void Random_GenerateGuid_Standard()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            Guid guid = proxy.GetGuid();
+
+            Assert.IsTrue(guid.ToString().Length == Guid.Empty.ToString().Length);
+        }
+
+        [TestMethod]
+        public void Random_GenerateGuids_Standard()
+        {
+            RandomOrgClient proxy = new RandomOrgClient(Constants.ApiKey);
+            Guid[] guids = proxy.GetGuids(100);
+
+            for (int i = 0; i < 100; i++)
+            {
+                Assert.IsTrue(guids[i].ToString().Length == Guid.Empty.ToString().Length);
+            }            
+        }
     }
 }

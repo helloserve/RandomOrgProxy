@@ -9,14 +9,12 @@ namespace helloserve.com.RandomOrg.Parameters
 {
     internal class GenerateIntegersParams : BaseGenerateParams
     {
-        public int n { get; set; }
         public int min { get; set; }
         public int max { get; set; }
 
-        public GenerateIntegersParams(int n, int min, int max, bool replacement, string apiKey)
-            : base(replacement, apiKey)
+        public GenerateIntegersParams(int min, int max, bool replacement, int n, string apiKey)
+            : base(replacement, n, apiKey)
         {
-            this.n = n;
             this.min = min;
             this.max = max;
         }
