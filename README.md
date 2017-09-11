@@ -1,29 +1,56 @@
 # RandomOrgProxy
-A simple C# client for interfacing with the Random.org API
+A simple .NET Standard 1.4 client for interfacing with the Random.org API
 
 # Why this client?
+A configurable and simple-use-first implementation that wraps the Random.org API.
 
-It is a very user-friendly design, that is to say it's not a verbatim implementation of the Random.org API, but instead a configurable and simple-use-first implementation that wraps the API.
+If you are not concerned about denied requests and don't want to deal with HTTP errors or time-limited throttling, this library has the option to fall back to local ```System.Random``` class implementations.
 
-If you are not concerned about denied requests, don't want to deal with HTTP errors or time-limited throttling, this library has the option to fall back to local ```Random``` class implementations.
+# Dependencies
+This package has no dependencies apart from the standard Microsoft abstraction packages.
 
-Basically it's Random.org the easy way, but also supports the hard way through some configuration changes.
+# License
+Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
 
 # Configuration
 
 So what is configurable?
 
 - You can set to not use the fallback mode in cases where: no requests are left for your API key, time-limited throttling is done by Random.Org or HTTP errors occur. If you do, you will get exceptions in those cases.
-- You can set whether values should generate with or without replacement.
+- You can set whether values should generate with or without replacement (optional parameter on Random.org).
 - You can set a standard set of characters for random strings, or specify it per call.
 
 # Usage
 
-Check out the unit tests for full usage on every available request.
+Essential service configuration:
+```
+services.AddRandomOrg("<your API key>");
+```
+
+Extended service configuration:
+```
+services.AddRandomOrg(options =>
+{
+    options.ApiKey = "<your API key>";
+    options.WithReplacement = false;
+    options.ShouldFallback = false;
+});
+```
+
 
 Example usage:
 
 ```
-    RandomOrgClient proxy = new RandomOrgClient("your api key here");
-    int[] result = proxy.GetIntegers(100, 10, 50);
+private IRandomOrgClient _randomOrgClient;
+
+public Foo(IRandomOrgClient randomOrgClient)
+{
+    _randomOrgClient = randomOrgClient;
+}
+    
+public async Task Process()
+{
+    int[] integers = await _randomOrgClient.GetIntegersAsync(100, 10, 50);
+    strings[] strings = await _randomOrgClient.GetStringsAsync(100, 10);
+}
 ```

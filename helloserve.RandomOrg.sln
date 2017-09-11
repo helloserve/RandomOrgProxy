@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D48A471-2F0B-4CE0-84C8-C019719F29AA}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A11997D8-14BC-43AB-AC05-541EFBFDF97C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9545B236-7AF1-49BF-A83E-495DCD9D36DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helloserve.RandomOrg", "src\Helloserve.RandomOrg\Helloserve.RandomOrg.csproj", "{0F7C215D-AC8A-4171-A34F-F4E3CDD5DFCB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helloserve.RandomOrg.Test", "test\Helloserve.RandomOrg.Test\Helloserve.RandomOrg.Test.csproj", "{F4D0BCFA-2111-40CE-9F0C-103984E4FF24}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F7C215D-AC8A-4171-A34F-F4E3CDD5DFCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F7C215D-AC8A-4171-A34F-F4E3CDD5DFCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F7C215D-AC8A-4171-A34F-F4E3CDD5DFCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F7C215D-AC8A-4171-A34F-F4E3CDD5DFCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4D0BCFA-2111-40CE-9F0C-103984E4FF24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4D0BCFA-2111-40CE-9F0C-103984E4FF24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4D0BCFA-2111-40CE-9F0C-103984E4FF24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4D0BCFA-2111-40CE-9F0C-103984E4FF24}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0F7C215D-AC8A-4171-A34F-F4E3CDD5DFCB} = {A11997D8-14BC-43AB-AC05-541EFBFDF97C}
+		{F4D0BCFA-2111-40CE-9F0C-103984E4FF24} = {9545B236-7AF1-49BF-A83E-495DCD9D36DC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A037027-16D6-4A37-A283-9A740651BAC8}
+	EndGlobalSection
+EndGlobal
