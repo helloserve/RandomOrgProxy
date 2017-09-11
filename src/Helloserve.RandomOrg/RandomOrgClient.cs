@@ -214,7 +214,7 @@ namespace Helloserve.RandomOrg
             if (max < min)
                 throw new ArgumentException("max cannot be less than min");
 
-            return await GenerateAsync(count, "generateIntegers", new GenerateIntegersParams(count, min, max, WithReplacement, integerBase, _options.ApiKey),
+            return await GenerateAsync(count, "generateIntegers", new GenerateIntegersParams(min, max, integerBase, WithReplacement, count, _options.ApiKey),
                 () =>
                 {
                     int[] randomResult = new int[count];
@@ -253,7 +253,7 @@ namespace Helloserve.RandomOrg
             if (decimalPlaces < 1 || decimalPlaces > 20)
                 throw new ArgumentOutOfRangeException("decimalPlaces must range from 2 to 20");
 
-            return await GenerateAsync(count, "generateDecimalFractions", new GenerateDecimalFractionsParams(count, decimalPlaces, WithReplacement, _options.ApiKey),
+            return await GenerateAsync(count, "generateDecimalFractions", new GenerateDecimalFractionsParams(decimalPlaces, WithReplacement, count, _options.ApiKey),
                 () =>
                 {
                     double[] randomResult = new double[count];
@@ -316,7 +316,7 @@ namespace Helloserve.RandomOrg
             if (significantDigits < 2 || significantDigits > 20)
                 throw new ArgumentOutOfRangeException("significantDigits must range from 2 to 20");
 
-            return await GenerateAsync(count, "generateGaussians", new GenerateGaussiansParams(count, mean, standardDeviation, significantDigits, _options.ApiKey),
+            return await GenerateAsync(count, "generateGaussians", new GenerateGaussiansParams(mean, standardDeviation, significantDigits, count, _options.ApiKey),
                 () =>
                 {
                     double[] randomResult = new double[count];
@@ -399,7 +399,7 @@ namespace Helloserve.RandomOrg
             if (characters.Length > 80)
                 throw new ArgumentOutOfRangeException("characters cannot be more than 80");
 
-            return await GenerateAsync(count, "generateStrings", new GenerateStringsParams(count, length, characters, WithReplacement, _options.ApiKey),
+            return await GenerateAsync(count, "generateStrings", new GenerateStringsParams(length, characters, WithReplacement, count, _options.ApiKey),
                 () =>
                 {
                     string[] randomResult = new string[count];
@@ -420,6 +420,41 @@ namespace Helloserve.RandomOrg
         public string[] GetStrings(int count, int length, string characters)
         {
             return ExecuteTask(GetStringsAsync(count, length, characters));
+        }
+
+        #endregion
+
+        #region Guid
+
+        public async Task<Guid> GetGuidAsync()
+        {
+            return (await GetGuidsAsync(1))[0];
+        }
+
+        public Guid GetGuid()
+        {
+            return GetGuids(1)[0];
+        }
+
+        public async Task<Guid[]> GetGuidsAsync(int count)
+        {
+            return await GenerateAsync(count, "generateUUIDs", new BaseNParams(count, _options.ApiKey),
+                () =>
+                {
+                    Guid[] randomResult = new Guid[count];
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        randomResult[i] = Guid.NewGuid();
+                    }
+
+                    return randomResult;
+                });
+        }
+
+        public Guid[] GetGuids(int count)
+        {
+            return ExecuteTask(GetGuidsAsync(count));
         }
 
         #endregion

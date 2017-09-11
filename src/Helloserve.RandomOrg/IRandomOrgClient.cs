@@ -265,5 +265,28 @@ namespace Helloserve.RandomOrg
         /// <param name="characters">A string containing all the characters allowed in the random strings. Maximum amount is 80 characters.</param>
         /// <returns>A string array of random values.</returns>
         string[] GetStrings(int count, int length, string characters);
+
+        /// <summary>
+        /// Get a random Guid.
+        /// </summary>
+        /// <returns>A random Guid value.</returns>
+        Task<Guid> GetGuidAsync();
+        /// <summary>
+        /// Get a random Guid.
+        /// </summary>
+        /// <returns>A random Guid value.</returns>
+        Guid GetGuid();
+        /// <summary>
+        /// Get a Guid array.
+        /// </summary>
+        /// <param name="count">The length of the array to return.</param>
+        /// <returns>A Guid array of random values.</returns>
+        Task<Guid[]> GetGuidsAsync(int count);        
+        /// <summary>
+        /// Get a Guid array.
+        /// </summary>
+        /// <param name="count">The length of the array to return.</param>
+        /// <returns>A Guid array of random values.</returns>
+        Guid[] GetGuids(int count);
     }
 }

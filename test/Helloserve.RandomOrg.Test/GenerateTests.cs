@@ -77,13 +77,7 @@ namespace Helloserve.RandomOrg.Tests
 
             Assert.Equal(100, result.Length);
 
-            bool inRange = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                inRange &= result[i] >= 10;
-                inRange &= result[i] <= 50;
-            }
-            Assert.True(inRange);
+            Assert.All(result, r => Assert.True(r >= 10 && r <= 50));
         }
 
         [Fact]
@@ -93,13 +87,7 @@ namespace Helloserve.RandomOrg.Tests
 
             Assert.Equal(100, result.Length);
 
-            bool inRange = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                inRange &= result[i] >= 10;
-                inRange &= result[i] <= 50;
-            }
-            Assert.True(inRange);
+            Assert.All(result, r => Assert.True(r >= 10 && r <= 50));
         }
 
         [Fact]
@@ -131,12 +119,7 @@ namespace Helloserve.RandomOrg.Tests
 
             Assert.Equal(100, result.Length);
 
-            bool lengthCorrect = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                lengthCorrect &= result[i].ToString().Length <= 8;
-            }
-            Assert.True(lengthCorrect);
+            Assert.All(result, r => Assert.True(r.ToString().Length <= 8));
         }
 
         [Fact]
@@ -146,12 +129,7 @@ namespace Helloserve.RandomOrg.Tests
 
             Assert.Equal(100, result.Length);
 
-            bool lengthCorrect = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                lengthCorrect &= result[i].ToString().Length <= 8;
-            }
-            Assert.True(lengthCorrect);
+            Assert.All(result, r => Assert.True(r.ToString().Length <= 8));
         }
 
         [Fact]
@@ -209,12 +187,7 @@ namespace Helloserve.RandomOrg.Tests
 
             Assert.Equal(100, result.Length);
 
-            bool lengthCorrect = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                lengthCorrect &= (result[i] > 0 && result[i].ToString().Length <= 8) || (result[i] < 0 && result[i].ToString().Length <= 9);
-            }
-            Assert.True(lengthCorrect);
+            Assert.All(result, r => Assert.True((r > 0 && r.ToString().Length <= 8) || (r < 0 && r.ToString().Length <= 9)));
         }
 
         [Fact]
@@ -224,12 +197,7 @@ namespace Helloserve.RandomOrg.Tests
 
             Assert.Equal(100, result.Length);
 
-            bool lengthCorrect = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                lengthCorrect &= (result[i] > 0 && result[i].ToString().Length <= 8) || (result[i] < 0 && result[i].ToString().Length <= 9);
-            }
-            Assert.True(lengthCorrect);
+            Assert.All(result, r => Assert.True((r > 0 && r.ToString().Length <= 8) || (r < 0 && r.ToString().Length <= 9)));
         }
 
         [Fact]
@@ -272,13 +240,7 @@ namespace Helloserve.RandomOrg.Tests
             string[] result = _randomOrgClient.GetStrings(100, 10);
 
             RandomOrgOptions options = new RandomOrgOptions();
-            bool allowedCharacters = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                allowedCharacters &= result[i].ToCharArray().Except(options.AllowedStringCharacters).Count() == 0;
-            }
-
-            Assert.True(allowedCharacters);
+            Assert.All(result, r => Assert.True(r.ToCharArray().Except(options.AllowedStringCharacters).Count() == 0));
         }
 
         [Fact]
@@ -287,13 +249,7 @@ namespace Helloserve.RandomOrg.Tests
             string[] result = await _randomOrgClient.GetStringsAsync(100, 10);
 
             RandomOrgOptions options = new RandomOrgOptions();
-            bool allowedCharacters = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                allowedCharacters &= result[i].ToCharArray().Except(options.AllowedStringCharacters).Count() == 0;
-            }
-
-            Assert.True(allowedCharacters);
+            Assert.All(result, r => Assert.True(r.ToCharArray().Except(options.AllowedStringCharacters).Count() == 0));
         }
 
         [Fact]
@@ -302,13 +258,7 @@ namespace Helloserve.RandomOrg.Tests
             char[] allowed = new char[] { '1', '2', '3' };
             string[] result = _randomOrgClient.GetStrings(100, 10, allowed);
 
-            bool allowedCharacters = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                allowedCharacters &= result[i].ToCharArray().Except(allowed).Count() == 0;
-            }
-
-            Assert.True(allowedCharacters);
+            Assert.All(result, r => Assert.True(r.ToCharArray().Except(allowed).Count() == 0));
         }
 
         [Fact]
@@ -317,13 +267,39 @@ namespace Helloserve.RandomOrg.Tests
             char[] allowed = new char[] { '1', '2', '3' };
             string[] result = await _randomOrgClient.GetStringsAsync(100, 10, allowed);
 
-            bool allowedCharacters = true;
-            for (int i = 0; i < result.Length; i++)
-            {
-                allowedCharacters &= result[i].ToCharArray().Except(allowed).Count() == 0;
-            }
+            Assert.All(result, r => Assert.True(r.ToCharArray().Except(allowed).Count() == 0));
+        }
 
-            Assert.True(allowedCharacters);
+        [Fact]
+        public void GenerateGuid_Standard()
+        {
+            Guid guid = _randomOrgClient.GetGuid();
+
+            Assert.Equal(Guid.Empty.ToString().Length, guid.ToString().Length);
+        }
+
+        [Fact]
+        public async Task GenerateGuidAsync_Standard()
+        {
+            Guid guid = await _randomOrgClient.GetGuidAsync();
+
+            Assert.Equal(Guid.Empty.ToString().Length, guid.ToString().Length);
+        }
+
+        [Fact]
+        public void GenerateGuids_Standard()
+        {
+            Guid[] guids = _randomOrgClient.GetGuids(100);
+
+            Assert.All(guids, g => Assert.Equal(Guid.Empty.ToString().Length, g.ToString().Length));
+        }
+
+        [Fact]
+        public async Task GenerateGuidsAsync_Standard()
+        {
+            Guid[] guids = await _randomOrgClient.GetGuidsAsync(100);
+
+            Assert.All(guids, g => Assert.Equal(Guid.Empty.ToString().Length, g.ToString().Length));
         }
     }
 }
