@@ -17,6 +17,7 @@ using Helloserve.RandomOrg.Models;
 using Helloserve.RandomOrg.Models.Base;
 using Helloserve.RandomOrg.Parameters;
 using Helloserve.RandomOrg.Parameters.Base;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -29,6 +30,7 @@ namespace Helloserve.RandomOrg
 {
     internal class RandomOrgClient : IRandomOrgClient
     {
+        private readonly ILogger _logger;
         private RandomOrgOptions _options;
         private BoxMuller _boxMuller = new BoxMuller();
 
@@ -42,8 +44,9 @@ namespace Helloserve.RandomOrg
             set { _options.WithReplacement = value; }
         }
 
-        public RandomOrgClient(RandomOrgOptions options)
+        public RandomOrgClient(ILoggerFactory loggerManager, RandomOrgOptions options)
         {
+            _logger = loggerManager?.CreateLogger<RandomOrgClient>();
             _options = options;
         }
 
@@ -97,7 +100,8 @@ namespace Helloserve.RandomOrg
             requestData.id = id;
 
             string rpc = JsonConvert.SerializeObject(requestData);
-            byte[] rpcBuffer = UTF8Encoding.UTF8.GetBytes(rpc);
+            _logger?.LogDebug($"POST request  (id { id }): { rpc }");
+            byte[] rpcBuffer = Encoding.UTF8.GetBytes(rpc);
 
             using (MemoryStream requestStream = new MemoryStream(rpcBuffer))
             {
@@ -110,6 +114,7 @@ namespace Helloserve.RandomOrg
                     HttpResponseMessage response = await httpClient.PostAsync(_options.Url, requestContent);
                     await response.Content.LoadIntoBufferAsync();
                     rpc = await response.Content.ReadAsStringAsync();
+                    _logger?.LogDebug($"POST response (id { id }: { rpc }");
                     BaseResponseRpc<TResponse> responseData = JsonConvert.DeserializeObject<BaseResponseRpc<TResponse>>(rpc);
 
                     if (response.StatusCode != HttpStatusCode.OK || responseData.error != null)
@@ -134,6 +139,7 @@ namespace Helloserve.RandomOrg
             if (processor == null)
                 processor = (v) => { return (T)v; };
 
+            _logger?.LogDebug($"Generate: NextReqTime { NextRequestTime }, CanMakeReq { CanMakeRequest }");
             if (DateTime.UtcNow > NextRequestTime && CanMakeRequest)
             {
                 try
@@ -147,10 +153,13 @@ namespace Helloserve.RandomOrg
                     }
                     return randomResult;
                 }
-                catch
+                catch (Exception ex)
                 {
+
                     if (!_options.ShouldFallback)
-                        throw;
+                        throw ex;
+
+                    _logger?.LogWarning(0, ex, "Generate: Exception encountered.");
                 }
             }
             else if (!_options.ShouldFallback)
@@ -168,10 +177,12 @@ namespace Helloserve.RandomOrg
 
                 return usage.requestsLeft;
             }
-            catch
+            catch (Exception ex)
             {
                 if (!_options.ShouldFallback)
-                    throw;
+                    throw ex;
+
+                _logger?.LogWarning(0, ex, "GetUsageLeft: Exception encountered.");
             }
 
             return 0;

@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace Helloserve.RandomOrg
@@ -28,8 +29,8 @@ namespace Helloserve.RandomOrg
         public static IServiceCollection AddRandomOrg(this IServiceCollection services, Action<RandomOrgOptions> options)
         {
             RandomOrgOptions optionsObject = new RandomOrgOptions();
-            options(optionsObject);
-            return services.AddTransient(typeof(IRandomOrgClient), s => new RandomOrgClient(optionsObject));
+            options(optionsObject);            
+            return services.AddTransient(typeof(IRandomOrgClient), s => new RandomOrgClient(s.GetService<ILoggerFactory>(), optionsObject));
         }
     }
 }

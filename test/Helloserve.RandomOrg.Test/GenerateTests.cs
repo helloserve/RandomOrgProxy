@@ -201,8 +201,8 @@ namespace Helloserve.RandomOrg.Tests
             double[] result = _randomOrgClient.GetGaussians(100, 20, 100, 6);
 
             Assert.Equal(100, result.Length);
-
-            Assert.All(result, r => Assert.True((r > 0 && r.ToString().Length <= 8) || (r < 0 && r.ToString().Length <= 9)));
+            
+            Assert.All(result, r => Assert.True((r > 0 && r.ToString().Length <= 9) || (r < 0 && r.ToString().Length <= 10)));
         }
 
         [Fact]
@@ -212,7 +212,7 @@ namespace Helloserve.RandomOrg.Tests
 
             Assert.Equal(100, result.Length);
 
-            Assert.All(result, r => Assert.True((r > 0 && r.ToString().Length <= 8) || (r < 0 && r.ToString().Length <= 9)));
+            Assert.All(result, r => Assert.True((r > 0 && r.ToString().Length <= 9) || (r < 0 && r.ToString().Length <= 10)));
         }
 
         [Fact]
