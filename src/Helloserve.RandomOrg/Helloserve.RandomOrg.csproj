@@ -6,6 +6,15 @@
     <Company>helloserve Productions</Company>
     <Authors>Henk Roux</Authors>
     <Description>A full featured implementation of the random.org API reference.</Description>
+    <Copyright>Copyright (c) 2017 helloserve Productions</Copyright>
+    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/helloserve/RandomOrgProxy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/helloserve/RandomOrgProxy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>random random.org generate</PackageTags>
+    <PackageId>Helloserve.RandomOrg</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Now upgraded to .NET Standard, targeting 1.4</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
