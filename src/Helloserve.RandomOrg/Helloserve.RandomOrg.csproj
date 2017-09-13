@@ -13,8 +13,9 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>random random.org generate</PackageTags>
     <PackageId>Helloserve.RandomOrg</PackageId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageReleaseNotes>Now upgraded to .NET Standard, targeting 1.4</PackageReleaseNotes>
+    <PackageIconUrl>http://www.helloserve.com/content/media/r.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
