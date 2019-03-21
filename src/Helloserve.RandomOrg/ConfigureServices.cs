@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright 2019 Henk Roux (helloserve Productions)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,22 +13,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-using Helloserve.RandomOrg.Parameters.Base;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
-namespace Helloserve.RandomOrg.Parameters
+namespace Helloserve.RandomOrg
 {
-    internal class GenerateGaussiansParams : BaseNParams
+    public static class ConfigureServices
     {
-        public double mean { get; set; }
-        public double standardDeviation { get; set; }
-        public int significantDigits { get; set; }
-
-        public GenerateGaussiansParams(double mean, double standardDeviation, int significantDigits, int n, string apiKey)
-            : base(n, apiKey)
+        public static IServiceCollection AddRandomOrg(this IServiceCollection services, string apiKey)
         {
-            this.mean = mean;
-            this.standardDeviation = standardDeviation;
-            this.significantDigits = significantDigits;
+            return services.AddRandomOrg(options => { options.ApiKey = apiKey; });
+        }
+
+        public static IServiceCollection AddRandomOrg(this IServiceCollection services, Action<RandomOrgOptions> options)
+        {
+            services.Configure(options);
+            return services.AddSingleton<IRandomOrgClient, RandomOrgClient>();
         }
     }
 }

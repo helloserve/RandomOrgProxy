@@ -1,5 +1,5 @@
 ﻿/*
-Copyright 2017 Henk Roux (helloserve Productions)
+Copyright 2019 Henk Roux (helloserve Productions)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ using Helloserve.RandomOrg.Models.Base;
 using Helloserve.RandomOrg.Parameters;
 using Helloserve.RandomOrg.Parameters.Base;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -31,6 +32,9 @@ namespace Helloserve.RandomOrg
     internal class RandomOrgClient : IRandomOrgClient
     {
         private readonly ILogger _logger;
+        private static readonly HttpClient _httpClientInternal = new HttpClient();
+        private readonly HttpClient _httpClient;
+        private HttpClient HttpClient => _httpClient ?? _httpClientInternal;
         private RandomOrgOptions _options;
         private BoxMuller _boxMuller = new BoxMuller();
 
@@ -44,10 +48,11 @@ namespace Helloserve.RandomOrg
             set { _options.WithReplacement = value; }
         }
 
-        public RandomOrgClient(ILoggerFactory loggerManager, RandomOrgOptions options)
+        public RandomOrgClient(IOptions<RandomOrgOptions> options, ILoggerFactory loggerFactory = null, HttpClient httpClient = null)
         {
-            _logger = loggerManager?.CreateLogger<RandomOrgClient>();
-            _options = options;
+            _logger = loggerFactory?.CreateLogger<RandomOrgClient>();
+            _httpClient = httpClient;
+            _options = options.Value;
         }
 
         public bool CanMakeRequest
@@ -107,11 +112,10 @@ namespace Helloserve.RandomOrg
             {
                 try
                 {
-                    HttpClient httpClient = new HttpClient();
                     HttpContent requestContent = new StreamContent(requestStream);
                     requestContent.Headers.Add("Content-Type", "application/json-rpc");
 
-                    HttpResponseMessage response = await httpClient.PostAsync(_options.Url, requestContent);
+                    HttpResponseMessage response = await HttpClient.PostAsync(_options.Url, requestContent);
                     await response.Content.LoadIntoBufferAsync();
                     rpc = await response.Content.ReadAsStringAsync();
                     _logger?.LogDebug($"POST response (id { id }: { rpc }");

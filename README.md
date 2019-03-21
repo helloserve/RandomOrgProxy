@@ -1,5 +1,5 @@
 # RandomOrgProxy
-A simple .NET Standard 1.4 client for interfacing with the Random.org API
+A simple .NET Standard 2.0 client for interfacing with the Random.org API
 
 # Why this client?
 A configurable and simple-use-first implementation that wraps the Random.org API.

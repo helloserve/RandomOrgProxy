@@ -1,5 +1,5 @@
 ﻿/*
-Copyright 2017 Henk Roux (helloserve Productions)
+Copyright 2019 Henk Roux (helloserve Productions)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,8 +20,7 @@ namespace Helloserve.RandomOrg.Test.Base
 {
     public class TestClass
     {
-        private IServiceProvider _serviceProvider;
-        public IServiceProvider ServiceProvider => _serviceProvider;
+        public IServiceProvider ServiceProvider { get; }
 
         private IServiceCollection _serviceCollection;
 
@@ -29,7 +28,7 @@ namespace Helloserve.RandomOrg.Test.Base
         {
             _serviceCollection = new ServiceCollection();
             ConfigureServices(_serviceCollection);
-            _serviceProvider = _serviceCollection.BuildServiceProvider();
+            ServiceProvider = _serviceCollection.BuildServiceProvider();
         }
 
         public virtual IServiceCollection ConfigureServices(IServiceCollection services)
