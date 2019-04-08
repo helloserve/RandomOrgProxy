@@ -22,13 +22,17 @@ using Xunit;
 
 namespace Helloserve.RandomOrg.Tests
 {
-    public class GenerateTests : TestClass
+    public class GenerateTestsWithCall : TestClass
     {
         private IRandomOrgClient _randomOrgClient { get { return ServiceProvider.GetService<IRandomOrgClient>(); } }
 
         public override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return base.ConfigureServices(services).AddRandomOrg(string.Empty);
+            return base.ConfigureServices(services).AddRandomOrg(options => 
+            {
+                options.ApiKey = Configuration["ApiKey"];
+                options.ShouldFallback = false;
+            });
         }
 
         [Fact]

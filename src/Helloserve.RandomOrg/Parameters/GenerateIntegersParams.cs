@@ -21,14 +21,14 @@ namespace Helloserve.RandomOrg.Parameters
     {
         public int min { get; set; }
         public int max { get; set; }
-        public IntegerBase integerBase { get; set; }
+        public int @base { get; set; }
 
         public GenerateIntegersParams(int min, int max, bool replacement, int n, string apiKey)
             : base(replacement, n, apiKey)
         {
             this.min = min;
             this.max = max;
-            this.integerBase = IntegerBase.Decimal;
+            this.@base = (int)IntegerBase.Decimal;
         }
 
         public GenerateIntegersParams(int min, int max, IntegerBase integerBase, bool replacement, int n, string apiKey)
@@ -37,7 +37,7 @@ namespace Helloserve.RandomOrg.Parameters
             this.n = n;
             this.min = min;
             this.max = max;
-            this.integerBase = integerBase;
+            this.@base = (int)integerBase;
         }
     }
 }

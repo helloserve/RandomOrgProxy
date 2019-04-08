@@ -25,7 +25,7 @@ namespace Helloserve.RandomOrg.Tests
 
         public override IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            return base.ConfigureServices(services).AddRandomOrg(Constants.ApiKey);
+            return base.ConfigureServices(services).AddRandomOrg(Configuration["ApiKey"]);
         }
 
         [Fact]

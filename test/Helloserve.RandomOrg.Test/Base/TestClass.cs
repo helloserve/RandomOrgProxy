@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -21,11 +22,16 @@ namespace Helloserve.RandomOrg.Test.Base
     public class TestClass
     {
         public IServiceProvider ServiceProvider { get; }
+        public IConfiguration Configuration { get; }
 
         private IServiceCollection _serviceCollection;
 
         public TestClass()
         {
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.AddUserSecrets("654D6738-261C-4946-B62D-C67A269DADB9");
+            Configuration = configurationBuilder.Build();
+
             _serviceCollection = new ServiceCollection();
             ConfigureServices(_serviceCollection);
             ServiceProvider = _serviceCollection.BuildServiceProvider();

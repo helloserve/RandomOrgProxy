@@ -17,7 +17,8 @@ namespace Helloserve.RandomOrg
 {
     public class RandomOrgOptions
     {
-        private string _url = "https://api.random.org/json-rpc/1/invoke";
+        private string _url = "https://api.random.org/json-rpc/{0}/invoke";
+        private string _apiVersion = "2";
         private bool _fallback = true;
         private bool _replacement = true;
         private char[] _allowedCharacters = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -29,11 +30,15 @@ namespace Helloserve.RandomOrg
         /// Your API key for random.org. This value must be set since it cannot be defaulted.
         /// </summary>
         public string ApiKey { get; set; }
+        /// <summary>
+        /// The API Version to use. Production API keys require version 2. See Url property.
+        /// </summary>
+        public string ApiVersion { get { return _apiVersion; } set { _apiVersion = value; } }
 
         /// <summary>
-        /// The Url for the random.org API endpoint. This is defaulted to "https://api.random.org/json-rpc/1/invoke";
+        /// The Url for the random.org API endpoint. This is defaulted to "https://api.random.org/json-rpc/{ApiVersion}/invoke";
         /// </summary>
-        public string Url { get { return _url; } set { _url = value; } }
+        internal string Url { get { return string.Format(_url, ApiVersion); } }
         
         /// <summary>
         /// Gets or sets the behavior of the client in the case of denied, throttled or HTTP error scenarios. Default is true. Setting it to false will not fall back to the Random() class, and you will receive exceptions.

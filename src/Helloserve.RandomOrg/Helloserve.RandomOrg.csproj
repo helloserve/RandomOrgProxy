@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <Company>helloserve Productions</Company>
     <Authors>Henk Roux</Authors>
     <Description>A full featured implementation of the random.org API reference.</Description>
@@ -14,7 +14,7 @@
     <PackageTags>random random.org generate</PackageTags>
     <PackageId>Helloserve.RandomOrg</PackageId>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Now upgraded to .NET Standard 2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Support release 2 of the Basic API. Requires a migrated beta API key, or a newly generated API key.</PackageReleaseNotes>
     <PackageIconUrl>http://www.helloserve.com/content/media/r.png</PackageIconUrl>
   </PropertyGroup>
 

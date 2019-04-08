@@ -113,7 +113,7 @@ namespace Helloserve.RandomOrg
                 try
                 {
                     HttpContent requestContent = new StreamContent(requestStream);
-                    requestContent.Headers.Add("Content-Type", "application/json-rpc");
+                    requestContent.Headers.Add("Content-Type", "application/json");
 
                     HttpResponseMessage response = await HttpClient.PostAsync(_options.Url, requestContent);
                     await response.Content.LoadIntoBufferAsync();
@@ -255,7 +255,7 @@ namespace Helloserve.RandomOrg
                     }
                     return randomResult;
                 },
-                processor: (v) => (int)Math.Truncate((double)v));
+                processor: (v) => (int)v);
         }
 
         public int[] GetIntegersBase(int count, int min, int max, IntegerBase integerBase)
@@ -307,12 +307,12 @@ namespace Helloserve.RandomOrg
 
         public async Task<double> GetGaussianAsync()
         {
-            return await GetGaussianAsync(0.0D, 1.0D, 20);
+            return await GetGaussianAsync(0.0D, 1.0D, 14);
         }
 
         public double GetGaussian()
         {
-            return GetGaussian(0.0D, 1.0D, 20);
+            return GetGaussian(0.0D, 1.0D, 14);
         }
 
         public async Task<double> GetGaussianAsync(double mean, double standardDeviation, int significantDigits)
@@ -327,12 +327,12 @@ namespace Helloserve.RandomOrg
 
         public async Task<double[]> GetGaussiansAsync(int count)
         {
-            return await GetGaussiansAsync(count, 0.0D, 1.0D, 20);
+            return await GetGaussiansAsync(count, 0.0D, 1.0D, 14);
         }
 
         public double[] GetGaussians(int count)
         {
-            return GetGaussians(count, 0.0D, 1.0D, 20);
+            return GetGaussians(count, 0.0D, 1.0D, 14);
         }
 
         public async Task<double[]> GetGaussiansAsync(int count, double mean, double standardDeviation, int significantDigits)
@@ -343,8 +343,8 @@ namespace Helloserve.RandomOrg
             if (standardDeviation < -1000000.0 || standardDeviation > 1000000.0)
                 throw new ArgumentOutOfRangeException("standardDeviation must range from -1e6 to +1e6");
 
-            if (significantDigits < 2 || significantDigits > 20)
-                throw new ArgumentOutOfRangeException("significantDigits must range from 2 to 20");
+            if (significantDigits < 2 || significantDigits > 14)
+                throw new ArgumentOutOfRangeException("significantDigits must range from 2 to 14");
 
             return await GenerateAsync(count, "generateGaussians", new GenerateGaussiansParams(mean, standardDeviation, significantDigits, count, _options.ApiKey),
                 () =>

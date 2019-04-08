@@ -1,3 +1,3 @@
 msbuild /t:pack /p:Configuration=Release
 
-nuget push .\bin\Release\Helloserve.RandomOrg.1.0.2.nupkg
+dotnet nuget push .\bin\Release\Helloserve.RandomOrg.2.0.0.nupkg
