@@ -29,7 +29,7 @@ namespace Helloserve.RandomOrg.Test.Base
         public TestClass()
         {
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            configurationBuilder.AddUserSecrets("654D6738-261C-4946-B62D-C67A269DADB9");
+            configurationBuilder.AddUserSecrets("f359406b-7a79-407b-b5fc-276004880154");
             Configuration = configurationBuilder.Build();
 
             _serviceCollection = new ServiceCollection();

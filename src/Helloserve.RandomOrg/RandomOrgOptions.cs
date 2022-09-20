@@ -18,7 +18,7 @@ namespace Helloserve.RandomOrg
     public class RandomOrgOptions
     {
         private string _url = "https://api.random.org/json-rpc/{0}/invoke";
-        private string _apiVersion = "2";
+        private string _apiVersion = "4";
         private bool _fallback = true;
         private bool _replacement = true;
         private char[] _allowedCharacters = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
