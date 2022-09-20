@@ -19,12 +19,12 @@ using Helloserve.RandomOrg.Parameters;
 using Helloserve.RandomOrg.Parameters.Base;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Helloserve.RandomOrg
@@ -104,7 +104,7 @@ namespace Helloserve.RandomOrg
             int id = (int)DateTime.UtcNow.Ticks;
             requestData.id = id;
 
-            string rpc = JsonConvert.SerializeObject(requestData);
+            string rpc = JsonSerializer.Serialize(requestData);
             _logger?.LogDebug($"POST request  (id { id }): { rpc }");
             byte[] rpcBuffer = Encoding.UTF8.GetBytes(rpc);
 
@@ -117,9 +117,9 @@ namespace Helloserve.RandomOrg
 
                     HttpResponseMessage response = await HttpClient.PostAsync(_options.Url, requestContent);
                     await response.Content.LoadIntoBufferAsync();
-                    rpc = await response.Content.ReadAsStringAsync();
+                    var rpcStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     _logger?.LogDebug($"POST response (id { id }: { rpc }");
-                    BaseResponseRpc<TResponse> responseData = JsonConvert.DeserializeObject<BaseResponseRpc<TResponse>>(rpc);
+                    BaseResponseRpc<TResponse> responseData = await JsonSerializer.DeserializeAsync<BaseResponseRpc<TResponse>>(rpcStream).ConfigureAwait(false);
 
                     if (response.StatusCode != HttpStatusCode.OK || responseData.error != null)
                     {
